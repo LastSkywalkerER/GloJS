@@ -1,9 +1,16 @@
-let money = 0;
-let income = 0;
-let addExpenses = 0;
-let deposit = 0;
-let mission = 0;
-let period = 0;
+let money = 999999;
+let income = 'фриланс';
+let addExpenses = 'интернет, такси, коммуналка';
+let deposit = true;
+let mission = 999999999;
+let period = 1;
+let budgetDay = money / 30;
 
-alert('Вывести на экран в модальном окне (alert) сообщение с любым текстом');
-console.log('Вывести в консоль сообщение с любым текстом');
+console.log(typeof(money));
+console.log(typeof(income));
+console.log(typeof(deposit));
+console.log(addExpenses.length);
+console.log('Период равен ' + period + ' месяц(ев)');
+console.log('Цель заработать ' + mission + ' долларов');
+console.log(addExpenses.toLowerCase().split(', '));
+console.log(budgetDay);
