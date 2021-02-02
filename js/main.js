@@ -3,10 +3,9 @@
 let money = Number(prompt('Ваш месячный доход'));
 let income = 'фриланс';
 let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'Квартплата, проездной, кредит');
-let deposit = Boolean(prompt('Есть ли у вас депозит в банке?'));
+let deposit = confirm('Есть ли у вас депозит в банке?');
 let mission = 999999999;
 let period = 1;
-
 
 let expenses1 = prompt('Введите обязательную статью расходов');
 let amount1 = prompt('Во сколько это обойдется?');
@@ -29,14 +28,14 @@ console.log('Бюджет на день: ' + Math.floor(budgetDay));
 
 switch(true) {
   case (budgetDay >= 1200):
-    alert('У вас высокий уровень дохода');
+    console.log('У вас высокий уровень дохода');
     break;
   case (budgetDay >= 600):
-    alert('У вас средний уровень дохода');
+    console.log('У вас средний уровень дохода');
     break;
   case (budgetDay >= 0):
-    alert('К сожалению у вас уровень дохода ниже среднего');
+    console.log('К сожалению у вас уровень дохода ниже среднего');
     break;
   default:
-    alert('Что то пошло не так');
+    console.log('Что то пошло не так');
 }
