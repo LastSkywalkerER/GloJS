@@ -44,9 +44,13 @@ switch(true) {
 }
 };
 
-console.log(typeof(money));
-console.log(typeof(income));
-console.log(typeof(deposit));
+function showTypeOf(variable){
+  console.log(typeof variable);
+};
+
+showTypeOf(money);
+showTypeOf(income);
+showTypeOf(deposit);
 console.log('Расходы за месяц вызов getExpensesMonth: ' + getExpensesMonth(amount1, amount2));
 console.log(addExpenses.toLowerCase().split(', '));
 console.log('Цель будет достигнута за ' + getTargetMonth(accumulatedMonth, mission) + ' месяцев(-а)');
