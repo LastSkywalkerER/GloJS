@@ -44,13 +44,13 @@ function getStatusIncome(budgetDay) {
 switch(true) {
   case (budgetDay >= 1200):
     return ('У вас высокий уровень дохода');
-    break;
+    
   case (budgetDay >= 600):
     return ('У вас средний уровень дохода');
-    break;
+    
   case (budgetDay >= 0):
     return ('К сожалению у вас уровень дохода ниже среднего');
-    break;
+    
   default:
     return ('Что то пошло не так');
 }
