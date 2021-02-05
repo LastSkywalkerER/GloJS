@@ -56,24 +56,17 @@ switch(true) {
 }
 };
 
-function showTypeOf(variable){
-  console.log(typeof variable);
-};
-
 let money = start(),
     income = 'фриланс',
+    expenses = [],
     addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'Квартплата, проездной, кредит'),
     deposit = confirm('Есть ли у вас депозит в банке?'),
     mission = 100000,
     period = 1,
-    expenses = [],
     espensesAmount = getExpensesMonth(),
     accumulatedMonth = getAccumulatedMonth(espensesAmount, money),
     budgetDay = accumulatedMonth / 30;
 
-showTypeOf(money);
-showTypeOf(income);
-showTypeOf(deposit);
 console.log('Расходы за месяц: ' + espensesAmount);
 console.log(addExpenses.toLowerCase().split(', '));
 
