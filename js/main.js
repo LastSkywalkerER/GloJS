@@ -1,5 +1,26 @@
 'use strict';
 
+const calcButton = document.getElementById('start'),
+  addIncomeButton = document.getElementsByTagName('button')[0],
+  addExpensesButton = document.getElementsByTagName('button')[1],
+  depositCheck = document.querySelector('#deposit-check'),
+  addIncomeInput = document.querySelectorAll('.additional_income-item'),
+  budgetMonthOutput = document.getElementsByClassName('budget_month-value'),
+  budgetDayOutput = document.getElementsByClassName('budget_day-value'),
+  expensesMonthhOutput = document.getElementsByClassName('expenses_month-value'),
+  addIncomethOutput = document.getElementsByClassName('additional_income-value'),
+  addExpenseshOutput = document.getElementsByClassName('additional_expenses-value'),
+  savedMoneyOutput = document.getElementsByClassName('income_period-value'),
+  targetMonthOutput = document.getElementsByClassName('target_month-value'),
+  moneyInput = document.querySelector('.salary-amount'),
+  incomeNameInput = document.querySelector('.income-title'),
+  incomeValueInput = document.querySelector('.income-amount'),
+  expensesNameInput = document.querySelector('.expenses-title'),
+  expensesValueInput = document.querySelector('.expenses-amount'),
+  addExpensesInput = document.querySelector('.additional_expenses-item'),
+  targetInput = document.querySelector('.target-amount'),
+  periodInput = document.querySelector('.period-select');
+
 function isNumber(number) {
   return !isNaN(parseFloat(number)) && isFinite(number);
 }
