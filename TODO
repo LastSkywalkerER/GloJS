@@ -1,0 +1,31 @@
+elem = document.querySelector('');
+
+elem.classList.add();
+elem.classList.toggle();
+elem.classList.remove();
+
+  //при замене одних элементов другими, старые остаются в переменных JS, пропадают из вёрстки и попадают на новое место
+
+  elem.remove(); //убрать элемент из ДОМ
+
+  elem.append(elem1) //добавить внутрь элемента элемент1 в конец
+  elem.prepend(elem1) //добавить внутрь элемента элемент1 в начало
+
+  elem.before(elem1) //добавить элемент1 перед элементом
+  elem.after(elem1) //добавить элемент1 после элемента
+
+  elem.replaceWith(elem1); //заменить элемент элементом1
+
+  elem.cloneNode(true); //полное копирование элемента и его детей
+
+elem.textContent(); //полная замена/получение текста внутри элемента
+elem.innerHTML(); //полная замена/получение вёрстки внутри элемента
+document.createElement(); //создать элемент вёрстки
+
+elem.insertAjacentText('beforebegin/beforeafter/beforeend/afterend', text); //добавляет без удаления текст в указанное место
+elem.insertAjacentHTML('beforebegin/beforeafter/beforeend/afterend', text); //добавляет без удаления вёрстку в указанное место
+
+
+
+
+
