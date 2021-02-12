@@ -1,0 +1,59 @@
+elem = document.querySelector('');
+
+elem.classList.add();
+elem.classList.toggle();
+elem.classList.remove();
+
+elem.style //манипуляция стилями элемента
+
+  //при замене одних элементов другими, старые остаются в переменных JS, пропадают из вёрстки и попадают на новое место
+
+  elem.remove(); //убрать элемент из ДОМ
+
+  elem.append(elem1) //добавить внутрь элемента элемент1 в конец
+  elem.prepend(elem1) //добавить внутрь элемента элемент1 в начало
+
+  elem.before(elem1) //добавить элемент1 перед элементом
+  elem.after(elem1) //добавить элемент1 после элемента
+
+  elem.replaceWith(elem1); //заменить элемент элементом1
+
+  elem.cloneNode(true); //полное копирование элемента и его детей
+
+elem.textContent = ''; //полная замена/получение текста внутри элемента
+elem.innerHTML = ''; //полная замена/получение вёрстки внутри элемента
+document.createElement(); //создать элемент вёрстки
+
+elem.parentNode; //возвращает родитель элемента
+
+elem.insertAjacentText('beforebegin/beforeafter/beforeend/afterend', text); //добавляет без удаления текст в указанное место
+elem.insertAjacentHTML('beforebegin/beforeafter/beforeend/afterend', text); //добавляет без удаления вёрстку в указанное место
+
+elem.onclick/on...=function(){}; //лучше уже не использовать
+
+elem.addEventListener('[event]', function(event){}); //навесить слушатель события
+elem.removeEventListener('[event]', function(event){}); //убрать слушатель события
+  event.preventDefault();  //отменяет стандартное поведение браузера
+  [event]:
+    - click
+    - mousedown
+    - mouseup
+    - mousemove
+    - mouseenter
+    - mouseleave
+    - mouseover  //реагирует на дочерние элементы
+    - mouseout   //реагирует на дочерние элементы
+    
+    - input    //срабатывает на любой ввод в поле инпут
+    - change   //если при потере фокуса изменилось значение инпута
+    - keyup
+    - keydown
+    - focus
+    - blur
+
+    - DOMContentLoaded //срабатывает при полной загрузке DOM дерева
+
+window.onload = function(){};
+window.onunload = function(){};
+window.onbeforeunload = function(){};
+
