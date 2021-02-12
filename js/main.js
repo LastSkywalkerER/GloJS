@@ -39,7 +39,7 @@ chapters5 = books[4].querySelectorAll('li');
 
 let chapters6 = books[5].querySelectorAll('li');
 
-let chapter8 = document.createElement('li')
+let chapter8 = document.createElement('li');
 chapter8.textContent = 'Глава 8: За пределами ES6';
 
 chapters6[8].after(chapter8);
