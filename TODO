@@ -4,6 +4,8 @@ elem.classList.add();
 elem.classList.toggle();
 elem.classList.remove();
 
+elem.style //манипуляция стилями элемента
+
   //при замене одних элементов другими, старые остаются в переменных JS, пропадают из вёрстки и попадают на новое место
 
   elem.remove(); //убрать элемент из ДОМ
@@ -18,8 +20,8 @@ elem.classList.remove();
 
   elem.cloneNode(true); //полное копирование элемента и его детей
 
-elem.textContent(); //полная замена/получение текста внутри элемента
-elem.innerHTML(); //полная замена/получение вёрстки внутри элемента
+elem.textContent = ''; //полная замена/получение текста внутри элемента
+elem.innerHTML = ''; //полная замена/получение вёрстки внутри элемента
 document.createElement(); //создать элемент вёрстки
 
 elem.insertAjacentText('beforebegin/beforeafter/beforeend/afterend', text); //добавляет без удаления текст в указанное место
