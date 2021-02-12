@@ -81,7 +81,7 @@ let appData = {
     }
 
     let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'Квартплата, проездной, кредит');
-    appData.addExpenses = addExpenses.toLowerCase().split(', ');
+    appData.addExpenses = addExpenses.toLowerCase().split(',');
     appData.deposit = confirm('Есть ли у вас депозит в банке?');
     for (let i = 0; i < 2; i++) {
 
@@ -140,6 +140,9 @@ let appData = {
   },
 
   getExpensesInString: function () {
+    for (let i in appData.addExpenses) {
+      appData.addExpenses[i] = appData.addExpenses[i].trim();
+    }
     let string = '';
     for (let elem of appData.addExpenses) {
       string += (elem.replace(elem[0], elem[0].toUpperCase()) + ', ');
