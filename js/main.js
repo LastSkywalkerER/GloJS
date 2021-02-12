@@ -12,14 +12,14 @@ const calcButton = document.getElementById('start'),
   addExpenseshOutput = document.getElementsByClassName('additional_expenses-value'),
   savedMoneyOutput = document.getElementsByClassName('income_period-value'),
   targetMonthOutput = document.getElementsByClassName('target_month-value'),
-  moneyInput = document.querySelector('.salary-amount'),
-  incomeNameInput = document.querySelector('.income-title'),
-  incomeValueInput = document.querySelector('.income-amount'),
-  expensesNameInput = document.querySelector('.expenses-title'),
-  expensesValueInput = document.querySelector('.expenses-amount'),
-  addExpensesInput = document.querySelector('.additional_expenses-item'),
-  targetInput = document.querySelector('.target-amount'),
-  periodInput = document.querySelector('.period-select');
+  moneyInput = document.querySelector('input.salary-amount'),
+  incomeNameInput = document.querySelector('input.income-title'),
+  incomeValueInput = document.querySelector('input.income-amount'),
+  expensesNameInput = document.querySelector('input.expenses-title'),
+  expensesValueInput = document.querySelector('input.expenses-amount'),
+  addExpensesInput = document.querySelector('input.additional_expenses-item'),
+  targetInput = document.querySelector('input.target-amount'),
+  periodInput = document.querySelector('input.period-select');
 
 function isNumber(number) {
   return !isNaN(parseFloat(number)) && isFinite(number);
