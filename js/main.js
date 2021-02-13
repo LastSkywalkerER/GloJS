@@ -18,11 +18,9 @@ let calcButton = document.getElementById('start'),
   addExpensesInput = document.querySelector('input.additional_expenses-item'),
   targetInput = document.querySelector('input.target-amount'),
   periodInput = document.querySelector('input.period-select'),
-  periodAmount = document.querySelector('.period-amount');
-
-function isNumber(number) {
-  return !isNaN(parseFloat(number)) && isFinite(number);
-}
+  periodAmount = document.querySelector('.period-amount'),
+  inputWithText = document.querySelectorAll('[placeholder="Наименование"]'),
+  inputWithNumber = document.querySelectorAll('[placeholder="Сумма"]');
 
 let appData = {
   income: {},
@@ -71,7 +69,9 @@ let appData = {
   addExpensesBlock: function () {
 
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
-    // expensesItems[0].parentNode.insertBefore(cloneExpensesItem, addExpensesButton);
+
+    cloneExpensesItem.querySelector('.expenses-title').value = '';
+    cloneExpensesItem.querySelector('.expenses-amount').value = '';
 
     addExpensesButton.before(cloneExpensesItem);
 
@@ -96,6 +96,9 @@ let appData = {
   addIncomeBlock: function () {
 
     let cloneIncomeItem = incomeItems[0].cloneNode(true);
+
+    cloneIncomeItem.querySelector('.income-title').value = '';
+    cloneIncomeItem.querySelector('.income-amount').value = '';
 
     addIncomeButton.before(cloneIncomeItem);
 
@@ -142,42 +145,19 @@ let appData = {
   },
 
 
+  checkInputText: function (char) {
 
-  checkInputText: function (message, defaultMessage = '') {
-    let text = '';
-    do {
-      text = prompt(message, defaultMessage);
+    if (/[а-я]/i.test(char) || char === ',' || char === ' ' || char === '.' || char === ';') {
+      return true;
+    } else {
+      return false;
     }
-    while (!isNaN(text));
-    return text;
   },
 
-  checkInputNumber: function (message, defaultMessage = '') {
-    let number = '';
-    do {
-      number = prompt(message, defaultMessage);
-    }
-    while (!isNumber(number));
-    return parseFloat(number);
+  isNumber: function (number) {
+    return !isNaN(parseFloat(number)) && isFinite(number);
   },
 
-
-
-  asking: function () {
-
-    if (confirm('Есть ли у вас дополнительный источник заработка?')) {
-      let itemIncome = appData.checkInputText('Какой у вас дополнительный заработок?', 'Таксую');
-
-      let cashIncome = appData.checkInputNumber('Сколько в месяц вы на этом зарабатываете?', 10000);
-
-      appData.income[itemIncome] = cashIncome;
-    }
-
-    let addExpenses = prompt('Перечислите возможные расходы за рассчитываемый период через запятую', 'Квартплата, проездной, кредит');
-    appData.addExpenses = addExpenses.toLowerCase().split(',');
-    appData.deposit = confirm('Есть ли у вас депозит в банке?');
-
-  },
 
   getExpensesMonth: function () {
     for (let key in appData.expenses) {
@@ -240,7 +220,31 @@ let appData = {
   changePeriodValue: function () {
     periodAmount.textContent = periodInput.value;
   },
-}
+};
+
+inputWithText.forEach(item => {
+  item.addEventListener('input', event => {
+    let correctString = '';
+    for (let char of event.target.value) {
+      if (appData.checkInputText(char)) {
+        correctString += char;
+      }
+    }
+    event.target.value = correctString;
+  });
+});
+
+inputWithNumber.forEach(item => {
+  item.addEventListener('input', event => {
+    let correctNumber = '';
+    for (let num of event.target.value) {
+      if (appData.isNumber(num)) {
+        correctNumber += num;
+      }
+    }
+    event.target.value = correctNumber;
+  });
+});
 
 calcButton.setAttribute('disabled', 'disabled');
 calcButton.removeEventListener('click', appData.start);
@@ -253,7 +257,7 @@ moneyInput.addEventListener('input', () => {
     calcButton.setAttribute('disabled', 'disabled');
     calcButton.removeEventListener('click', appData.start);
   }
-})
+});
 
 addIncomeButton.addEventListener('click', appData.addIncomeBlock);
 addExpensesButton.addEventListener('click', appData.addExpensesBlock);
