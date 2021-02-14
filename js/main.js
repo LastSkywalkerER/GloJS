@@ -222,8 +222,8 @@ let appData = {
   },
 };
 
-inputWithText.forEach(item => {
-  item.addEventListener('input', event => {
+document.addEventListener('input', event => {
+  if (event.target.placeholder === 'Наименование') {
     let correctString = '';
     for (let char of event.target.value) {
       if (appData.checkInputText(char)) {
@@ -231,11 +231,8 @@ inputWithText.forEach(item => {
       }
     }
     event.target.value = correctString;
-  });
-});
-
-inputWithNumber.forEach(item => {
-  item.addEventListener('input', event => {
+  }
+  if (event.target.placeholder === 'Сумма') {
     let correctNumber = '';
     for (let num of event.target.value) {
       if (appData.isNumber(num)) {
@@ -243,7 +240,7 @@ inputWithNumber.forEach(item => {
       }
     }
     event.target.value = correctNumber;
-  });
+  }
 });
 
 calcButton.setAttribute('disabled', 'disabled');
