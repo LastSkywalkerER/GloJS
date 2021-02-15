@@ -57,3 +57,5 @@ window.onload = function(){};
 window.onunload = function(){};
 window.onbeforeunload = function(){};
 
+localeStorage.getItem(key);
+localeStorage.setItem(key, value);
