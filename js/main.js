@@ -43,7 +43,7 @@ AppData.prototype.start = function () {
 
 
   this.budget = +moneyInput.value;
-
+  this.deposit = depositCheck.checked;
   this.getIncome();
   this.getExpenses();
   this.getAddIncome();
@@ -203,8 +203,8 @@ AppData.prototype.getStatusIncome = function () {
 
 AppData.prototype.getInfoDeposit = function () {
   if (this.deposit) {
-    this.percentDeposit = this.checkInputNumber('Какой годовой процент?', 10);
-    this.moneyDeposit = this.checkInputNumber('Какая сумма заложена', 10000)
+    this.percentDeposit = prompt('Какой годовой процент?', 10);
+    this.moneyDeposit = prompt('Какая сумма заложена', 10000);
   }
 };
 
@@ -249,6 +249,9 @@ AppData.prototype.clearFields = function () {
   document.querySelectorAll('input[type="text"]').forEach(item => {
     item.value = '';
   });
+  periodInput.value = 1;
+  this.changePeriodValue();
+  depositCheck.checked = false;
   this.income = {};
   this.incomeMonth = 0;
   this.addIncome = [];
