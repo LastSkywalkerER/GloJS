@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     this.reDrow();
   };
 
-  let createDiv = new DomElement('.magic', '100px', '100px', 'red', '15px');
+  let createDiv = new DomElement(prompt('Введите селектор', '.magic'), prompt('Введите высоту', '100px'), prompt('Введите ширину', '100px'), prompt('Введите цвет', 'red'), prompt('Введите размер шрифта', '15px'));
   createDiv.create();
 
 
