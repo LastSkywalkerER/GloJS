@@ -22,7 +22,11 @@ const calcButton = document.getElementById('start'),
   inputWithNumber = document.querySelectorAll('[placeholder="Сумма"]');
 
 let incomeItems = document.querySelectorAll('.income-items'),
-  expensesItems = document.querySelectorAll('.expenses-items');
+  expensesItems = document.querySelectorAll('.expenses-items'),
+  items = {
+    income: document.querySelectorAll('.income-items'),
+    expenses: document.querySelectorAll('.expenses-items'),
+  };
 
 class AppData {
   constructor() {
@@ -47,8 +51,7 @@ class AppData {
 
     this.budget = +moneyInput.value;
     this.deposit = depositCheck.checked;
-    this.getIncome();
-    this.getExpenses();
+    this.getExpInc();
     this.getAddIncome();
     this.getAddExpenses();
     this.getExpensesMonth();
@@ -76,71 +79,101 @@ class AppData {
     targetMonthOutput.value = this.getTargetMonth();
   }
 
-  addExpensesBlock() {
+  // addExpensesBlock() {
 
-    let cloneExpensesItem = expensesItems[0].cloneNode(true);
+  //   let cloneExpensesItem = expensesItems[0].cloneNode(true);
 
-    cloneExpensesItem.querySelector('.expenses-title').value = '';
-    cloneExpensesItem.querySelector('.expenses-amount').value = '';
+  //   cloneExpensesItem.querySelector('.expenses-title').value = '';
+  //   cloneExpensesItem.querySelector('.expenses-amount').value = '';
 
-    addExpensesButton.before(cloneExpensesItem);
+  //   addExpensesButton.before(cloneExpensesItem);
 
-    expensesItems = document.querySelectorAll('.expenses-items');
+  //   expensesItems = document.querySelectorAll('.expenses-items');
 
-    if (expensesItems.length === 3) {
-      addExpensesButton.style.display = 'none';
+  //   if (expensesItems.length === 3) {
+  //     addExpensesButton.style.display = 'none';
+  //   }
+  // }
+
+  // addIncomeBlock() {
+
+  //   let cloneIncomeItem = incomeItems[0].cloneNode(true);
+
+  //   cloneIncomeItem.querySelector('.income-title').value = '';
+  //   cloneIncomeItem.querySelector('.income-amount').value = '';
+
+  //   addIncomeButton.before(cloneIncomeItem);
+
+  //   incomeItems = document.querySelectorAll('.income-items');
+
+  //   if (incomeItems.length === 3) {
+  //     addIncomeButton.style.display = 'none';
+  //   }
+  // }
+
+  addExpIncBlock(event) {
+
+    const selector = event.target.className.split(' ')[1].split('_')[0],
+      cloneItem = event.target.parentNode.querySelectorAll(`.${selector}-items`)[0].cloneNode(true);
+
+    cloneItem.querySelector(`.${selector}-title`).value = '';
+    cloneItem.querySelector(`.${selector}-amount`).value = '';
+
+    event.target.before(cloneItem);
+
+    // incomeItems = document.querySelectorAll(`.income-items`);
+
+    // if (incomeItems.length === 3) {
+    //   addIncomeButton.style.display = 'none';
+    // }
+
+    // expensesItems = document.querySelectorAll('.expenses-items');
+
+    // if (expensesItems.length === 3) {
+    //   addExpensesButton.style.display = 'none';
+    // }
+
+    items[selector] = document.querySelectorAll(`.${selector}-items`);
+
+    if (items[selector].length === 3) {
+      event.target.style.display = 'none';
     }
+
+
   }
 
-  getExpenses() {
-    expensesItems.forEach(item => {
-      let itemExpenses = item.querySelector('.expenses-title').value;
-      let cashExpenses = +item.querySelector('.expenses-amount').value;
+  getExpInc() {
 
-      if (itemExpenses !== '' && cashExpenses !== '') {
-        this.expenses[itemExpenses] = cashExpenses;
+    const count = item => {
+      console.log(item);
+      const selectorStr = item.className.split('-')[0];
+      let itemTitle = item.querySelector(`.${selectorStr}-title`).value;
+      let cashAmount = +item.querySelector(`.${selectorStr}-amount`).value;
+
+      if (itemTitle !== '' && cashAmount !== '') {
+        this[selectorStr][itemTitle] = cashAmount;
       }
-    });
-  }
+    };
 
-  addIncomeBlock() {
+    // expensesItems.forEach(count);
+    // incomeItems.forEach(count);
 
-    let cloneIncomeItem = incomeItems[0].cloneNode(true);
+    for (let key in items) {
 
-    cloneIncomeItem.querySelector('.income-title').value = '';
-    cloneIncomeItem.querySelector('.income-amount').value = '';
-
-    addIncomeButton.before(cloneIncomeItem);
-
-    incomeItems = document.querySelectorAll('.income-items');
-
-    if (incomeItems.length === 3) {
-      addIncomeButton.style.display = 'none';
+      items[key].forEach(count);
     }
-  }
-
-  getIncome() {
-    incomeItems.forEach(item => {
-      let itemIncome = item.querySelector('.income-title').value;
-      let cashIncome = +item.querySelector('.income-amount').value;
-
-      if (itemIncome !== '' && cashIncome !== '') {
-        this.income[itemIncome] = cashIncome;
-      }
-    });
 
     for (let key in this.income) {
       this.incomeMonth += +this.income[key];
     }
-
   }
 
   getAddExpenses() {
     let addExpenses = addExpensesInput.value.split(',');
     addExpenses.forEach(item => {
-      item = item.trim();
-      if (item !== '') {
-        this.addExpenses.push(item);
+      let itemValue = item.trim();
+      if (itemValue !== '') {
+        this.addExpenses.push(itemValue);
       }
     });
   }
@@ -153,7 +186,6 @@ class AppData {
       }
     });
   }
-
 
   checkInputText(char) {
 
@@ -277,8 +309,9 @@ class AppData {
   eventsListeners() {
     var start = this.start.bind(this),
       reset = this.reset.bind(this),
-      addIncomeBlock = this.addIncomeBlock.bind(this),
-      addExpensesBlock = this.addExpensesBlock.bind(this),
+      // addIncomeBlock = this.addIncomeBlock.bind(this),
+      // addExpensesBlock = this.addExpensesBlock.bind(this),
+      addExpIncBlock = this.addExpIncBlock.bind(addExpIncBlock),
       changePeriodValue = this.changePeriodValue.bind(this);
 
     document.addEventListener('input', event => {
@@ -317,8 +350,8 @@ class AppData {
 
     resetButton.addEventListener('click', reset);
 
-    addIncomeButton.addEventListener('click', addIncomeBlock);
-    addExpensesButton.addEventListener('click', addExpensesBlock);
+    addIncomeButton.addEventListener('click', addExpIncBlock);
+    addExpensesButton.addEventListener('click', addExpIncBlock);
 
     periodInput.addEventListener('input', changePeriodValue);
   }
