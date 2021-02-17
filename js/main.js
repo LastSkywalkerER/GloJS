@@ -21,12 +21,10 @@ const calcButton = document.getElementById('start'),
   inputWithText = document.querySelectorAll('[placeholder="Наименование"]'),
   inputWithNumber = document.querySelectorAll('[placeholder="Сумма"]');
 
-let incomeItems = document.querySelectorAll('.income-items'),
-  expensesItems = document.querySelectorAll('.expenses-items'),
-  items = {
-    income: document.querySelectorAll('.income-items'),
-    expenses: document.querySelectorAll('.expenses-items'),
-  };
+let items = {
+  income: document.querySelectorAll('.income-items'),
+  expenses: document.querySelectorAll('.expenses-items'),
+};
 
 class AppData {
   constructor() {
@@ -145,10 +143,9 @@ class AppData {
   getExpInc() {
 
     const count = item => {
-      console.log(item);
       const selectorStr = item.className.split('-')[0];
-      let itemTitle = item.querySelector(`.${selectorStr}-title`).value;
-      let cashAmount = +item.querySelector(`.${selectorStr}-amount`).value;
+      const itemTitle = item.querySelector(`.${selectorStr}-title`).value;
+      const cashAmount = +item.querySelector(`.${selectorStr}-amount`).value;
 
       if (itemTitle !== '' && cashAmount !== '') {
         this[selectorStr][itemTitle] = cashAmount;
@@ -169,9 +166,9 @@ class AppData {
   }
 
   getAddExpenses() {
-    let addExpenses = addExpensesInput.value.split(',');
+    const addExpenses = addExpensesInput.value.split(',');
     addExpenses.forEach(item => {
-      let itemValue = item.trim();
+      const itemValue = item.trim();
       if (itemValue !== '') {
         this.addExpenses.push(itemValue);
       }
@@ -180,7 +177,7 @@ class AppData {
 
   getAddIncome() {
     addIncomeInput.forEach(item => {
-      let itemValue = item.value.trim();
+      const itemValue = item.value.trim();
       if (itemValue !== '') {
         this.addIncome.push(itemValue);
       }
@@ -357,4 +354,4 @@ class AppData {
   }
 }
 
-let appData = new AppData();
+const appData = new AppData();
