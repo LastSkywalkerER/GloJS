@@ -19,12 +19,11 @@ const calcButton = document.getElementById('start'),
   periodInput = document.querySelector('input.period-select'),
   periodAmount = document.querySelector('.period-amount'),
   inputWithText = document.querySelectorAll('[placeholder="Наименование"]'),
-  inputWithNumber = document.querySelectorAll('[placeholder="Сумма"]');
-
-let items = {
-  income: document.querySelectorAll('.income-items'),
-  expenses: document.querySelectorAll('.expenses-items'),
-};
+  inputWithNumber = document.querySelectorAll('[placeholder="Сумма"]'),
+  items = {
+    income: document.querySelectorAll('.income-items'),
+    expenses: document.querySelectorAll('.expenses-items'),
+  };
 
 class AppData {
   constructor() {
@@ -184,7 +183,7 @@ class AppData {
   // }
 
   getAddExpInc() {
-    let add = {
+    const add = {
       expenses: addExpensesInput.value.split(','),
       income: []
     };
@@ -196,7 +195,6 @@ class AppData {
     for (let key in add) {
       add[key].forEach((item) => {
         const itemValue = item.trim();
-        console.log(key);
         if (itemValue !== '') {
           switch (key) {
             case 'expenses':
