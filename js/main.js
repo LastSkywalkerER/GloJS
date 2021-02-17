@@ -50,8 +50,7 @@ class AppData {
     this.budget = +moneyInput.value;
     this.deposit = depositCheck.checked;
     this.getExpInc();
-    this.getAddIncome();
-    this.getAddExpenses();
+    this.getAddExpInc();
     this.getExpensesMonth();
     this.getBudget();
     this.getInfoDeposit();
@@ -165,23 +164,51 @@ class AppData {
     }
   }
 
-  getAddExpenses() {
-    const addExpenses = addExpensesInput.value.split(',');
-    addExpenses.forEach(item => {
-      const itemValue = item.trim();
-      if (itemValue !== '') {
-        this.addExpenses.push(itemValue);
-      }
-    });
-  }
+  // getAddExpenses() {
+  //   const addExpenses = addExpensesInput.value.split(',');
+  //   addExpenses.forEach(item => {
+  //     const itemValue = item.trim();
+  //     if (itemValue !== '') {
+  //       this.addExpenses.push(itemValue);
+  //     }
+  //   });
+  // }
 
-  getAddIncome() {
+  // getAddIncome() {
+  //   addIncomeInput.forEach(item => {
+  //     const itemValue = item.value.trim();
+  //     if (itemValue !== '') {
+  //       this.addIncome.push(itemValue);
+  //     }
+  //   });
+  // }
+
+  getAddExpInc() {
+    let add = {
+      expenses: addExpensesInput.value.split(','),
+      income: []
+    };
+
     addIncomeInput.forEach(item => {
-      const itemValue = item.value.trim();
-      if (itemValue !== '') {
-        this.addIncome.push(itemValue);
-      }
+      add.income.push(item.value);
     });
+
+    for (let key in add) {
+      add[key].forEach((item) => {
+        const itemValue = item.trim();
+        console.log(key);
+        if (itemValue !== '') {
+          switch (key) {
+            case 'expenses':
+              this.addExpenses.push(itemValue);
+              break;
+            case 'income':
+              this.addIncome.push(itemValue);
+              break;
+          }
+        }
+      });
+    }
   }
 
   checkInputText(char) {
