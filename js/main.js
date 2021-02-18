@@ -30,19 +30,53 @@ const calcButton = document.getElementById('start'),
 
 class AppData {
   constructor() {
-    this.income = {};
-    this.incomeMonth = 0;
-    this.addIncome = [];
-    this.expenses = {};
-    this.addExpenses = [];
-    this.deposit = false;
-    this.percentDeposit = 0;
-    this.moneyDeposit = 0;
-    this.budget = 0;
-    this.budgetDay = 0;
-    this.budgetMonth = 0;
-    this.expensesMonth = 0;
+
+    this.checkCoockie();
+    const storage = JSON.parse(localStorage.getItem('appData')) ? JSON.parse(localStorage.getItem('appData')) : {};
+
+    this.date = new Date(Date.now() + 86400e3);
+    this.date = this.date.toUTCString();
+
+    this.income = storage.income ? storage.income : {};
+    this.incomeMonth = storage.incomeMonth ? storage.incomeMonth : 0;
+    this.addIncome = storage.addIncome ? storage.addIncome : [];
+    this.expenses = storage.expenses ? storage.expenses : {};
+    this.addExpenses = storage.addExpenses ? storage.addExpenses : [];
+    this.deposit = storage.deposit ? storage.deposit : false;
+    this.percentDeposit = storage.percentDeposit ? storage.percentDeposit : 0;
+    this.moneyDeposit = storage.moneyDeposit ? storage.moneyDeposit : 0;
+    this.budget = storage.budget ? storage.budget : 0;
+    this.budgetDay = storage.budgetDay ? storage.budgetDay : 0;
+    this.budgetMonth = storage.budgetMonth ? storage.budgetMonth : 0;
+    this.expensesMonth = storage.expensesMonth ? storage.expensesMonth : 0;
+    this.targetMonth = storage.targetMonth ? storage.targetMonth : 0;
     this.eventsListeners();
+
+    if (document.cookie) {
+      this.showResult();
+      this.blockInput();
+      this.showReset();
+    }
+
+  }
+
+  checkCoockie() {
+    if (document.cookie) {
+      const loadCookie = {};
+      document.cookie.split('; ').forEach(item => {
+        loadCookie[item.split('=')[0]] = JSON.parse(item.split('=')[1]);
+      });
+      const storage = JSON.parse(localStorage.getItem('appData')) ? JSON.parse(localStorage.getItem('appData')) : {};
+
+      for (let key in storage) {
+        if (JSON.stringify(loadCookie[key]) !== JSON.stringify(storage[key])) {
+          this.reset();
+          this.blockInput();
+        }
+      }
+    } else {
+      localStorage.clear();
+    }
   }
 
 
@@ -61,6 +95,38 @@ class AppData {
 
     this.blockInput();
     this.showReset();
+
+    document.cookie = `income=${JSON.stringify(this.income)}; expires=${this.date}`;
+    document.cookie = `incomeMonth=${this.incomeMonth}; expires=${this.date}`;
+    document.cookie = `addIncome=${JSON.stringify(this.addIncome)}; expires=${this.date}`;
+    document.cookie = `expenses=${JSON.stringify(this.expenses)}; expires=${this.date}`;
+    document.cookie = `addExpenses=${JSON.stringify(this.addExpenses)}; expires=${this.date}`;
+    document.cookie = `deposit=${this.deposit}; expires=${this.date}`;
+    document.cookie = `percentDeposit=${this.percentDeposit}; expires=${this.date}`;
+    document.cookie = `moneyDeposit=${this.moneyDeposit}; expires=${this.date}`;
+    document.cookie = `budget=${this.budget}; expires=${this.date}`;
+    document.cookie = `budgetDay=${this.budgetDay}; expires=${this.date}`;
+    document.cookie = `budgetMonth=${this.budgetMonth}; expires=${this.date}`;
+    document.cookie = `expensesMonth=${this.expensesMonth}; expires=${this.date}`;
+    document.cookie = `targetMonth=${this.targetMonth}; expires=${this.date}`;
+    document.cookie = `isLoad=${true}; expires=${this.date}`;
+
+    localStorage.setItem('appData', JSON.stringify({
+      income: this.income,
+      incomeMonth: this.incomeMonth,
+      addIncome: this.addIncome,
+      expenses: this.expenses,
+      addExpenses: this.addExpenses,
+      deposit: this.deposit,
+      percentDeposit: this.percentDeposit,
+      moneyDeposit: this.moneyDeposit,
+      budget: this.budget,
+      budgetDay: this.budgetDay,
+      budgetMonth: this.budgetMonth,
+      expensesMonth: this.expensesMonth,
+      targetMonth: this.targetMonth,
+      isLoad: true,
+    }));
   }
 
   showResult() {
@@ -75,7 +141,7 @@ class AppData {
       savedMoneyOutput.value = this.calcSavedMoney();
     });
 
-    targetMonthOutput.value = this.getTargetMonth();
+    targetMonthOutput.value = this.targetMonth;
   }
 
   // addExpensesBlock() {
@@ -240,9 +306,9 @@ class AppData {
 
   getTargetMonth() {
     if (targetInput.value / this.budgetMonth >= 0) {
-      return Math.ceil(targetInput.value / this.budgetMonth);
+      this.targetMonth = Math.ceil(targetInput.value / this.budgetMonth);
     } else {
-      return 'Цель недостижима!';
+      this.targetMonth = 'Цель недостижима!';
     }
   }
 
@@ -299,6 +365,22 @@ class AppData {
     this.clearFields();
     this.blockInput();
     this.blockReset();
+    localStorage.clear();
+
+    document.cookie = `income=${JSON.stringify(this.income)}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `incomeMonth=${this.incomeMonth}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `addIncome=${JSON.stringify(this.addIncome)}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `expenses=${JSON.stringify(this.expenses)}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `addExpenses=${JSON.stringify(this.addExpenses)}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `deposit=${this.deposit}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `percentDeposit=${this.percentDeposit}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `moneyDeposit=${this.moneyDeposit}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `budget=${this.budget}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `budgetDay=${this.budgetDay}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `budgetMonth=${this.budgetMonth}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `expensesMonth=${this.expensesMonth}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `targetMonth=${this.targetMonth}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    document.cookie = `isLoad=${true}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
   }
 
   clearFields() {
