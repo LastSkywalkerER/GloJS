@@ -60,6 +60,8 @@ class AppData {
 
   }
 
+  //проверяет наличие куки и его совпадение с локальным хранилищем
+
   checkCoockie() {
     if (document.cookie) {
       const loadCookie = {};
@@ -71,7 +73,8 @@ class AppData {
       for (let key in storage) {
         if (JSON.stringify(loadCookie[key]) !== JSON.stringify(storage[key])) {
           this.reset();
-          this.blockInput();
+          this.unlockInput();
+          this.eventsListeners();
         }
       }
     } else {
@@ -79,6 +82,7 @@ class AppData {
     }
   }
 
+  //запускает обработку введённых данных на кнопку рассчитать
 
   start() {
 
@@ -129,6 +133,8 @@ class AppData {
     }));
   }
 
+  //выводит результат обработки в заблокированные инпуты
+
   showResult() {
     budgetMonthOutput.value = this.budgetMonth;
     budgetDayOutput.value = Math.floor(this.budgetDay);
@@ -144,37 +150,7 @@ class AppData {
     targetMonthOutput.value = this.targetMonth;
   }
 
-  // addExpensesBlock() {
-
-  //   let cloneExpensesItem = expensesItems[0].cloneNode(true);
-
-  //   cloneExpensesItem.querySelector('.expenses-title').value = '';
-  //   cloneExpensesItem.querySelector('.expenses-amount').value = '';
-
-  //   addExpensesButton.before(cloneExpensesItem);
-
-  //   expensesItems = document.querySelectorAll('.expenses-items');
-
-  //   if (expensesItems.length === 3) {
-  //     addExpensesButton.style.display = 'none';
-  //   }
-  // }
-
-  // addIncomeBlock() {
-
-  //   let cloneIncomeItem = incomeItems[0].cloneNode(true);
-
-  //   cloneIncomeItem.querySelector('.income-title').value = '';
-  //   cloneIncomeItem.querySelector('.income-amount').value = '';
-
-  //   addIncomeButton.before(cloneIncomeItem);
-
-  //   incomeItems = document.querySelectorAll('.income-items');
-
-  //   if (incomeItems.length === 3) {
-  //     addIncomeButton.style.display = 'none';
-  //   }
-  // }
+  // добавление новых полей ввода по кнопке +
 
   addExpIncBlock(event) {
 
@@ -186,18 +162,6 @@ class AppData {
 
     event.target.before(cloneItem);
 
-    // incomeItems = document.querySelectorAll(`.income-items`);
-
-    // if (incomeItems.length === 3) {
-    //   addIncomeButton.style.display = 'none';
-    // }
-
-    // expensesItems = document.querySelectorAll('.expenses-items');
-
-    // if (expensesItems.length === 3) {
-    //   addExpensesButton.style.display = 'none';
-    // }
-
     items[selector] = document.querySelectorAll(`.${selector}-items`);
 
     if (items[selector].length === 3) {
@@ -206,6 +170,8 @@ class AppData {
 
 
   }
+
+  // получение значений дополнительного дохода и обязательных расходов
 
   getExpInc() {
 
@@ -219,9 +185,6 @@ class AppData {
       }
     };
 
-    // expensesItems.forEach(count);
-    // incomeItems.forEach(count);
-
     for (let key in items) {
 
       items[key].forEach(count);
@@ -232,24 +195,7 @@ class AppData {
     }
   }
 
-  // getAddExpenses() {
-  //   const addExpenses = addExpensesInput.value.split(',');
-  //   addExpenses.forEach(item => {
-  //     const itemValue = item.trim();
-  //     if (itemValue !== '') {
-  //       this.addExpenses.push(itemValue);
-  //     }
-  //   });
-  // }
-
-  // getAddIncome() {
-  //   addIncomeInput.forEach(item => {
-  //     const itemValue = item.value.trim();
-  //     if (itemValue !== '') {
-  //       this.addIncome.push(itemValue);
-  //     }
-  //   });
-  // }
+  // получение списков возможных доходов и возможных расходов
 
   getAddExpInc() {
     const add = {
@@ -278,6 +224,8 @@ class AppData {
     }
   }
 
+  // проверка буквы на рускоязычность и знак припинания
+
   checkInputText(char) {
 
     if (/[а-я]/i.test(char) || char === ',' || char === ' ' || char === '.' || char === ';') {
@@ -287,10 +235,13 @@ class AppData {
     }
   };
 
+  // проверка является ли числом
+
   isNumber(number) {
     return !isNaN(parseFloat(number)) && isFinite(number);
   }
 
+  // суммирование расходов
 
   getExpensesMonth() {
     for (let key in this.expenses) {
@@ -298,11 +249,15 @@ class AppData {
     }
   }
 
+  //вычисление месячного и дневного бюджета
+
   getBudget() {
     const monthDeposit = this.moneyDeposit * this.percentDeposit / 100;
     this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth + monthDeposit;
     this.budgetDay = this.budgetMonth / 30;
   }
+
+  // расчёт времени в месяцах для достижения цели
 
   getTargetMonth() {
     if (targetInput.value / this.budgetMonth >= 0) {
@@ -311,6 +266,8 @@ class AppData {
       this.targetMonth = 'Цель недостижима!';
     }
   }
+
+  // комментарий на кошелёк
 
   getStatusIncome() {
     switch (true) {
@@ -328,11 +285,13 @@ class AppData {
     }
   }
 
-
+  // расчёт накоплений за период
 
   calcSavedMoney() {
     return this.budgetMonth * periodInput.value;
   }
+
+  // оформление строки вывода возможных расходов
 
   getExpensesInString() {
     for (let i in this.addExpenses) {
@@ -346,25 +305,58 @@ class AppData {
     return string;
   }
 
+  // изменение циферки под ползунком с периодом
+
   changePeriodValue() {
     periodAmount.textContent = periodInput.value;
-  };
+  }
+
+  // разблокирует инпуты
+
+  unlockInput() {
+    document.querySelector('.data').querySelectorAll('input[type="text"]').forEach(item => {
+      item.removeAttribute('disabled');
+    });
+  }
+
+  // блокирует инпуты и снимает слушатели
 
   blockInput() {
     document.querySelector('.data').querySelectorAll('input[type="text"]').forEach(item => {
-      item.toggleAttribute('disabled');
+      item.setAttribute('disabled', '');
     });
+
+    depositPercent.removeEventListener('input', this.checkPercent.bind(this));
+
+    document.removeEventListener('input', () => {});
+
+
+    calcButton.removeEventListener('click', this.start.bind(this));
+
+    moneyInput.removeEventListener('input', () => {});
+
+    addIncomeButton.removeEventListener('click', this.addExpIncBlock.bind(this));
+    addExpensesButton.removeEventListener('click', this.addExpIncBlock.bind(this));
+
+    depositCheck.removeEventListener('change', this.depositHandler.bind(this));
   }
+
+  // заменяет кнопку расчитать на кнопку сбросить
 
   showReset() {
     calcButton.style.display = 'none';
     resetButton.style.display = 'block';
+
+    resetButton.addEventListener('click', this.reset.bind(this));
   }
+
+  // перезапуск объекта
 
   reset() {
     this.clearFields();
-    this.blockInput();
+    this.unlockInput();
     this.blockReset();
+    this.eventsListeners();
     localStorage.clear();
 
     document.cookie = `income=${JSON.stringify(this.income)}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
@@ -446,20 +438,16 @@ class AppData {
     } else {
       depositBank.style.display = 'none';
       depositAmount.style.display = 'none';
+      depositPercent.style.display = 'none';
       depositBank.value = '';
       depositAmount.value = '';
+      depositPercent.value = '';
       this.deposit = false;
       depositBank.removeEventListener('change', this.changePercent);
     }
   }
 
   eventsListeners() {
-    var start = this.start.bind(this),
-      reset = this.reset.bind(this),
-      // addIncomeBlock = this.addIncomeBlock.bind(this),
-      // addExpensesBlock = this.addExpensesBlock.bind(this),
-      addExpIncBlock = this.addExpIncBlock.bind(addExpIncBlock),
-      changePeriodValue = this.changePeriodValue.bind(this);
 
     depositPercent.addEventListener('input', this.checkPercent.bind(this));
 
@@ -485,24 +473,24 @@ class AppData {
     });
 
     calcButton.setAttribute('disabled', 'disabled');
-    calcButton.removeEventListener('click', start);
+    calcButton.removeEventListener('click', this.start.bind(this));
 
     moneyInput.addEventListener('input', () => {
       if (moneyInput.value !== '') {
         calcButton.removeAttribute('disabled');
-        calcButton.addEventListener('click', start);
+        calcButton.addEventListener('click', this.start.bind(this));
       } else {
         calcButton.setAttribute('disabled', 'disabled');
-        calcButton.removeEventListener('click', start);
+        calcButton.removeEventListener('click', this.start.bind(this));
       }
     });
 
-    resetButton.addEventListener('click', reset);
+    resetButton.removeEventListener('click', this.reset.bind(this));
 
-    addIncomeButton.addEventListener('click', addExpIncBlock);
-    addExpensesButton.addEventListener('click', addExpIncBlock);
+    addIncomeButton.addEventListener('click', this.addExpIncBlock.bind(this));
+    addExpensesButton.addEventListener('click', this.addExpIncBlock.bind(this));
 
-    periodInput.addEventListener('input', changePeriodValue);
+    periodInput.addEventListener('input', this.changePeriodValue.bind(this));
 
     depositCheck.addEventListener('change', this.depositHandler.bind(this));
   }
