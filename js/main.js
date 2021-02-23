@@ -82,7 +82,7 @@ class AppData {
     }
   }
 
-  //запускает обработку введённых данных на кнопку рассчитать
+  //запускает обработку введённых данных на кнопку рассчитать и сохраняет в хранилище и куки
 
   start() {
 
@@ -317,6 +317,10 @@ class AppData {
     document.querySelector('.data').querySelectorAll('input[type="text"]').forEach(item => {
       item.removeAttribute('disabled');
     });
+
+    addIncomeButton.removeAttribute('disabled');
+    addExpensesButton.removeAttribute('disabled');
+    depositCheck.removeAttribute('disabled');
   }
 
   // блокирует инпуты и снимает слушатели
@@ -337,6 +341,10 @@ class AppData {
 
     addIncomeButton.removeEventListener('click', this.addExpIncBlock.bind(this));
     addExpensesButton.removeEventListener('click', this.addExpIncBlock.bind(this));
+
+    addIncomeButton.setAttribute('disabled', '');
+    addExpensesButton.setAttribute('disabled', '');
+    depositCheck.setAttribute('disabled', '');
 
     depositCheck.removeEventListener('change', this.depositHandler.bind(this));
   }
@@ -409,8 +417,8 @@ class AppData {
 
   getInfoDeposit() {
     if (this.deposit) {
-      this.percentDeposit = depositPercent.value;
-      this.moneyDeposit = depositAmount.value;
+      this.percentDeposit = +depositPercent.value;
+      this.moneyDeposit = +depositAmount.value;
     }
   }
 
