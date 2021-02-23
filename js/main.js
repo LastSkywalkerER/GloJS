@@ -350,7 +350,7 @@ class AppData {
     resetButton.addEventListener('click', this.reset.bind(this));
   }
 
-  // перезапуск объекта
+  // перезапуск объекта сброс полей, куки и лок.хран.
 
   reset() {
     this.clearFields();
@@ -375,6 +375,8 @@ class AppData {
     document.cookie = `isLoad=${true}; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
   }
 
+  // очистка полей
+
   clearFields() {
     document.querySelectorAll('input[type="text"]').forEach(item => {
       item.value = '';
@@ -396,10 +398,14 @@ class AppData {
     this.expensesMonth = 0;
   }
 
+  // заменяет кнпоку сбросить на расчитать
+
   blockReset() {
     calcButton.style.display = 'block';
     resetButton.style.display = 'none';
   }
+
+  // получение значений по депозиту
 
   getInfoDeposit() {
     if (this.deposit) {
@@ -407,6 +413,8 @@ class AppData {
       this.moneyDeposit = depositAmount.value;
     }
   }
+
+  // проверка введённого числа на похохожесть с процентом (от 0 до 100)
 
   checkPercent(event) {
 
@@ -419,6 +427,8 @@ class AppData {
     }
   }
 
+  // ввод процента в поле из списка или показ поля
+
   changePercent() {
     const selectValue = this.value;
     if (selectValue === 'other') {
@@ -428,6 +438,8 @@ class AppData {
       depositPercent.value = selectValue;
     }
   }
+
+  // обработка клика галочки депозита
 
   depositHandler() {
     if (depositCheck.checked) {
@@ -446,6 +458,8 @@ class AppData {
       depositBank.removeEventListener('change', this.changePercent);
     }
   }
+
+  // добавление слушателей
 
   eventsListeners() {
 
