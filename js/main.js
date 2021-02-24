@@ -86,7 +86,6 @@ class AppData {
 
   start() {
 
-
     this.budget = +moneyInput.value;
 
     this.getExpInc();
@@ -471,6 +470,8 @@ class AppData {
 
   eventsListeners() {
 
+
+
     depositPercent.addEventListener('input', this.checkPercent.bind(this));
 
     document.addEventListener('input', event => {
@@ -494,16 +495,11 @@ class AppData {
       }
     });
 
-    calcButton.setAttribute('disabled', 'disabled');
-    calcButton.removeEventListener('click', this.start.bind(this));
 
-    moneyInput.addEventListener('input', () => {
-      if (moneyInput.value !== '') {
-        calcButton.removeAttribute('disabled');
-        calcButton.addEventListener('click', this.start.bind(this));
-      } else {
-        calcButton.setAttribute('disabled', 'disabled');
-        calcButton.removeEventListener('click', this.start.bind(this));
+
+    calcButton.addEventListener('click', () => {
+      if (moneyInput !== '') {
+        this.start.bind(this)();
       }
     });
 
